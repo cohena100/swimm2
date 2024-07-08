@@ -8,7 +8,7 @@ export const Route = createRootRouteWithContext<{
 }>()({
   component: () => (
     <>
-      <div className="p-2 flex gap-2">
+      <div className="p-2 flex gap-2 text-lg">
         <Link to="/" className="[&.active]:font-bold">
           Home
         </Link>
@@ -18,7 +18,7 @@ export const Route = createRootRouteWithContext<{
       </div>
       <hr />
       <Outlet />
-      <ReactQueryDevtools buttonPosition="top-right" />
+      <ReactQueryDevtools buttonPosition="bottom-right" />
       <TanStackRouterDevtools position="bottom-right" />
     </>
   ),
