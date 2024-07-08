@@ -1,33 +1,42 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { infiniteQueryOptions, useInfiniteQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { User } from "../types";
+import { IUser } from "../types";
+import User from "../components/user";
 
+const fetchUsers = async ({ pageParam = 1 }: { pageParam: unknown }) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const response = await fetch(`https://jsonplaceholder.typicode.com/users?_page=${pageParam}&_limit=${FETCH_USERS_LIMIT}`);
+  return response.json();
+};
+const usersQueryOptions = infiniteQueryOptions<IUser[]>({
+  queryKey: ["users"],
+  queryFn: fetchUsers,
+  initialPageParam: 1,
+  getNextPageParam(lastPage, allPages) {
+    return lastPage.length > 0 ? allPages.length + 1 : undefined;
+  },
+
+  refetchOnWindowFocus: false,
+  staleTime: Infinity,
+});
 export const Route = createFileRoute("/")({
+  loader: async ({ context }) => {
+    const { queryClient } = context;
+    const data = queryClient.getQueryData(usersQueryOptions.queryKey) ?? (await queryClient.fetchInfiniteQuery(usersQueryOptions));
+    return {
+      data,
+    };
+  },
   component: Index,
 });
 
 const FETCH_USERS_LIMIT = 3;
 
 function Index() {
-  const fetchUsers = async ({ pageParam = 1 }: { pageParam: unknown }) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    const response = await fetch(`https://jsonplaceholder.typicode.com/users?_page=${pageParam}&_limit=${FETCH_USERS_LIMIT}`);
-    return response.json();
-  };
   const { ref, inView } = useInView();
-  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery<User[]>({
-    queryKey: ["users"],
-    queryFn: fetchUsers,
-    initialPageParam: 1,
-    getNextPageParam(lastPage, allPages) {
-      return lastPage.length > 0 ? allPages.length + 1 : undefined;
-    },
-
-    refetchOnWindowFocus: false,
-    staleTime: Infinity,
-  });
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery(usersQueryOptions);
   useEffect(() => {
     if (inView) {
       fetchNextPage();
@@ -40,9 +49,7 @@ function Index() {
         {data?.pages.map((group, i) => (
           <React.Fragment key={i}>
             {group.map((user) => (
-              <p key={user.id} className="min-h-64">
-                {user.name}
-              </p>
+              <User user={user} />
             ))}
           </React.Fragment>
         ))}
