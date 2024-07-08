@@ -8,6 +8,7 @@ function Index() {
   return (
     <div className="p-2 text-3xl font-bold underline">
       <h3>Welcome Home!</h3>
+      <button className="btn btn-primary">Button</button>
     </div>
   );
 }
