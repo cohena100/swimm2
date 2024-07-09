@@ -46,7 +46,7 @@ function Index() {
           </React.Fragment>
         ))}
       </div>
-      {isFetchingNextPage && hasNextPage ? <p className="text-center">Loading...</p> : <p className="text-center">No more posts found</p>}
+      {isFetchingNextPage && hasNextPage ? <p className="text-center">Loading...</p> : <p className="text-center">No more users found</p>}
       <div ref={ref}></div>
     </div>
   );
