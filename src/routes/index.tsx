@@ -36,9 +36,8 @@ function Index() {
     }
   }, [inView, fetchNextPage]);
   return (
-    <div>
-      <h1 className="text-2xl">Personalised Post for you</h1>
-      <div>
+    <div className="mt-4">
+      <div className="flex flex-wrap gap-4">
         {data?.pages.map((group, i) => (
           <React.Fragment key={i}>
             {group.map((user) => (
