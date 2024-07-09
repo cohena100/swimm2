@@ -14,7 +14,8 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as UsersUserIdPostsImport } from './routes/users_.$userId.posts'
+import { Route as UsersUserIdPostsImport } from './routes/users/$userId/posts'
+import { Route as UsersUserIdPostsPostIdCommentsImport } from './routes/users/$userId/posts_/$postId/comments'
 
 // Create Virtual Routes
 
@@ -36,6 +37,12 @@ const UsersUserIdPostsRoute = UsersUserIdPostsImport.update({
   path: '/users/$userId/posts',
   getParentRoute: () => rootRoute,
 } as any)
+
+const UsersUserIdPostsPostIdCommentsRoute =
+  UsersUserIdPostsPostIdCommentsImport.update({
+    path: '/users/$userId/posts/$postId/comments',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -62,6 +69,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersUserIdPostsImport
       parentRoute: typeof rootRoute
     }
+    '/users/$userId/posts/$postId/comments': {
+      id: '/users/$userId/posts/$postId/comments'
+      path: '/users/$userId/posts/$postId/comments'
+      fullPath: '/users/$userId/posts/$postId/comments'
+      preLoaderRoute: typeof UsersUserIdPostsPostIdCommentsImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -71,6 +85,7 @@ export const routeTree = rootRoute.addChildren({
   IndexRoute,
   AboutLazyRoute,
   UsersUserIdPostsRoute,
+  UsersUserIdPostsPostIdCommentsRoute,
 })
 
 /* prettier-ignore-end */
@@ -83,7 +98,8 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/",
         "/about",
-        "/users/$userId/posts"
+        "/users/$userId/posts",
+        "/users/$userId/posts/$postId/comments"
       ]
     },
     "/": {
@@ -93,7 +109,10 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "about.lazy.tsx"
     },
     "/users/$userId/posts": {
-      "filePath": "users_.$userId.posts.tsx"
+      "filePath": "users/$userId/posts.tsx"
+    },
+    "/users/$userId/posts/$postId/comments": {
+      "filePath": "users/$userId/posts_/$postId/comments.tsx"
     }
   }
 }

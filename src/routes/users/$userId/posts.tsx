@@ -1,11 +1,11 @@
 import { infiniteQueryOptions, useInfiniteQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { IPost } from "../lib/types/post";
-import { fetchUserPosts } from "../lib/api/users";
+import { IPost } from "../../../lib/types/post";
+import { fetchUserPosts } from "../../../lib/api/users";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import React from "react";
-import Post from "../components/post";
+import Post from "../../../components/post";
 
 const postsQueryOptions = (userId: string) =>
   infiniteQueryOptions<IPost[]>({
