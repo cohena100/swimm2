@@ -2,14 +2,10 @@ import { infiniteQueryOptions, useInfiniteQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { IUser } from "../types";
+import { IUser } from "../lib/types/user";
 import User from "../components/user";
+import { fetchUsers } from "../lib/api/users";
 
-const fetchUsers = async ({ pageParam = 1 }: { pageParam: unknown }) => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const response = await fetch(`https://jsonplaceholder.typicode.com/users?_page=${pageParam}&_limit=${FETCH_USERS_LIMIT}`);
-  return response.json();
-};
 const usersQueryOptions = infiniteQueryOptions<IUser[]>({
   queryKey: ["users"],
   queryFn: fetchUsers,
@@ -17,7 +13,6 @@ const usersQueryOptions = infiniteQueryOptions<IUser[]>({
   getNextPageParam(lastPage, allPages) {
     return lastPage.length > 0 ? allPages.length + 1 : undefined;
   },
-
   refetchOnWindowFocus: false,
   staleTime: Infinity,
 });
@@ -31,8 +26,6 @@ export const Route = createFileRoute("/")({
   },
   component: Index,
 });
-
-const FETCH_USERS_LIMIT = 3;
 
 function Index() {
   const { ref, inView } = useInView();

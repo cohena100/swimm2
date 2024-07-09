@@ -1,4 +1,4 @@
-import { IUser } from "../types";
+import { IUser } from "../lib/types/user";
 
 type Props = { user: IUser };
 
