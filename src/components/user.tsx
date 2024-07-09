@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { IUser } from "../lib/types/user";
 
 type Props = { user: IUser };
@@ -9,7 +10,9 @@ const User = ({ user }: Props) => {
         <h2 className="card-title">{user.name}</h2>
         <p>{user.email}</p>
         <div className="card-actions justify-end">
-          <button className="btn">Posts</button>
+          <Link className="btn" to={`/users/${user.id}/posts`}>
+            Posts
+          </Link>
         </div>
       </div>
     </div>
