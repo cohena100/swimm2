@@ -3,7 +3,7 @@ import { IComment } from "../../../../../lib/types/comments";
 import { fetchUserPostComments } from "../../../../../lib/api/users";
 import { infiniteQueryOptions, useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import Comment from "../../../../../components/comment";
 
@@ -35,11 +35,12 @@ function Comments() {
   const { postId } = Route.useParams();
   const { ref, inView } = useInView();
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery(commentsQueryOptions(postId));
+  const [isRefresh, refresh] = useState(0);
   useEffect(() => {
     if (inView) {
-      fetchNextPage();
+      fetchNextPage().then(() => refresh(isRefresh + 1));
     }
-  }, [inView, fetchNextPage]);
+  }, [inView, fetchNextPage, isRefresh]);
   return (
     <div className="mt-4">
       <div className="flex flex-wrap gap-4">

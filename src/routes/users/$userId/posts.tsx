@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { IPost } from "../../../lib/types/post";
 import { fetchUserPosts } from "../../../lib/api/users";
 import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import Post from "../../../components/post";
 
@@ -35,11 +35,12 @@ function Posts() {
   const { userId } = Route.useParams();
   const { ref, inView } = useInView();
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery(postsQueryOptions(userId));
+  const [isRefresh, refresh] = useState(0);
   useEffect(() => {
     if (inView) {
-      fetchNextPage();
+      fetchNextPage().then(() => refresh(isRefresh + 1));
     }
-  }, [inView, fetchNextPage]);
+  }, [inView, fetchNextPage, isRefresh]);
   return (
     <div className="mt-4">
       <div className="flex flex-wrap gap-4">
