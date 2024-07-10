@@ -1,4 +1,4 @@
-import { FETCH_USERS_LIMIT, FETCH_COMMENTS_LIMIT, FETCH_POSTS_LIMIT } from "../constants";
+import { FETCH_USERS_LIMIT, FETCH_COMMENTS_LIMIT, FETCH_POSTS_LIMIT, FETCH_ALBUMS_LIMIT } from "../constants";
 
 export const fetchUsers = async ({ pageParam = 1 }: { pageParam: unknown }) => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -17,5 +17,12 @@ export const fetchUserPostComments =
   (postId: string) =>
   async ({ pageParam = 1 }: { pageParam: unknown }) => {
     const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments?_page=${pageParam}&_limit=${FETCH_COMMENTS_LIMIT}`);
+    return response.json();
+  };
+
+export const fetchUserAlbums =
+  (userId: string) =>
+  async ({ pageParam = 1 }: { pageParam: unknown }) => {
+    const response = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}/albums?_page=${pageParam}&_limit=${FETCH_ALBUMS_LIMIT}`);
     return response.json();
   };

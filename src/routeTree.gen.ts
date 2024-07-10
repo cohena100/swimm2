@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as UsersUserIdPostsImport } from './routes/users/$userId/posts'
+import { Route as UsersUserIdAlbumsImport } from './routes/users/$userId/albums'
 import { Route as UsersUserIdPostsPostIdCommentsImport } from './routes/users/$userId/posts_/$postId/comments'
 
 // Create Virtual Routes
@@ -53,6 +54,11 @@ const IndexRoute = IndexImport.update({
 
 const UsersUserIdPostsRoute = UsersUserIdPostsImport.update({
   path: '/users/$userId/posts',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UsersUserIdAlbumsRoute = UsersUserIdAlbumsImport.update({
+  path: '/users/$userId/albums',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -101,6 +107,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkLazyImport
       parentRoute: typeof rootRoute
     }
+    '/users/$userId/albums': {
+      id: '/users/$userId/albums'
+      path: '/users/$userId/albums'
+      fullPath: '/users/$userId/albums'
+      preLoaderRoute: typeof UsersUserIdAlbumsImport
+      parentRoute: typeof rootRoute
+    }
     '/users/$userId/posts': {
       id: '/users/$userId/posts'
       path: '/users/$userId/posts'
@@ -126,6 +139,7 @@ export const routeTree = rootRoute.addChildren({
   AccountLazyRoute,
   BlogLazyRoute,
   WorkLazyRoute,
+  UsersUserIdAlbumsRoute,
   UsersUserIdPostsRoute,
   UsersUserIdPostsPostIdCommentsRoute,
 })
@@ -143,6 +157,7 @@ export const routeTree = rootRoute.addChildren({
         "/account",
         "/blog",
         "/work",
+        "/users/$userId/albums",
         "/users/$userId/posts",
         "/users/$userId/posts/$postId/comments"
       ]
@@ -161,6 +176,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/work": {
       "filePath": "work.lazy.tsx"
+    },
+    "/users/$userId/albums": {
+      "filePath": "users/$userId/albums.tsx"
     },
     "/users/$userId/posts": {
       "filePath": "users/$userId/posts.tsx"
