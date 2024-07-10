@@ -1,16 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { IComment } from "../../../../../lib/types/comments";
-import { fetchUserPostComments } from "../../../../../lib/api/users";
+import { fetchUserAlbumPhotos } from "../../../../../lib/api/users";
 import { infiniteQueryOptions, useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
-import Comment from "../../../../../components/comment";
 import Spinner from "../../../../../components/spinner";
+import { IPhoto } from "../../../../../lib/types/photo";
+import Photo from "../../../../../components/photo";
 
-const commentsQueryOptions = (postId: string) =>
-  infiniteQueryOptions<IComment[]>({
-    queryKey: [postId, "comments"],
-    queryFn: fetchUserPostComments(postId),
+const photosQueryOptions = (albumId: string) =>
+  infiniteQueryOptions<IPhoto[]>({
+    queryKey: [albumId, "posts"],
+    queryFn: fetchUserAlbumPhotos(albumId),
     initialPageParam: 1,
     getNextPageParam(lastPage, allPages) {
       return lastPage.length > 0 ? allPages.length + 1 : undefined;
@@ -19,22 +19,22 @@ const commentsQueryOptions = (postId: string) =>
     staleTime: Infinity,
   });
 
-export const Route = createFileRoute("/users/$userId/posts/$postId/comments")({
-  loader: async ({ context, params: { postId } }) => {
+export const Route = createFileRoute("/users/$userId/albums/$albumId/photos")({
+  loader: async ({ context, params: { albumId } }) => {
     const { queryClient } = context;
 
-    const data = queryClient.getQueryData(commentsQueryOptions(postId).queryKey) ?? (await queryClient.fetchInfiniteQuery(commentsQueryOptions(postId)));
+    const data = queryClient.getQueryData(photosQueryOptions(albumId).queryKey) ?? (await queryClient.fetchInfiniteQuery(photosQueryOptions(albumId)));
     return {
       data,
     };
   },
-  component: Comments,
+  component: Photos,
 });
 
-function Comments() {
-  const { postId } = Route.useParams();
+function Photos() {
+  const { albumId } = Route.useParams();
   const { ref, inView } = useInView();
-  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery(commentsQueryOptions(postId));
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery(photosQueryOptions(albumId));
   const [isRefresh, refresh] = useState(0);
   useEffect(() => {
     if (inView) {
@@ -43,7 +43,7 @@ function Comments() {
   }, [inView, fetchNextPage, isRefresh]);
   return (
     <div className="mt-4">
-      <div className="flex flex-wrap gap-4">{data?.pages.map((group, i) => group.map((comment, j) => <Comment key={i * 1000 + j} comment={comment} />))}</div>
+      <div className="flex flex-wrap gap-4">{data?.pages.map((group, i) => group.map((photo, j) => <Photo key={i * 1000 + j} photo={photo} />))}</div>
       <div ref={ref}>
         {(isFetchingNextPage || hasNextPage) && (
           <div className="flex justify-center mt-4">
