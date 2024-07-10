@@ -19,9 +19,15 @@ import { Route as UsersUserIdPostsPostIdCommentsImport } from './routes/users/$u
 
 // Create Virtual Routes
 
+const AccountLazyImport = createFileRoute('/account')()
 const AboutLazyImport = createFileRoute('/about')()
 
 // Create/Update Routes
+
+const AccountLazyRoute = AccountLazyImport.update({
+  path: '/account',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/account.lazy').then((d) => d.Route))
 
 const AboutLazyRoute = AboutLazyImport.update({
   path: '/about',
@@ -62,6 +68,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutLazyImport
       parentRoute: typeof rootRoute
     }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/users/$userId/posts': {
       id: '/users/$userId/posts'
       path: '/users/$userId/posts'
@@ -84,6 +97,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
   AboutLazyRoute,
+  AccountLazyRoute,
   UsersUserIdPostsRoute,
   UsersUserIdPostsPostIdCommentsRoute,
 })
@@ -98,6 +112,7 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/",
         "/about",
+        "/account",
         "/users/$userId/posts",
         "/users/$userId/posts/$postId/comments"
       ]
@@ -107,6 +122,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/about": {
       "filePath": "about.lazy.tsx"
+    },
+    "/account": {
+      "filePath": "account.lazy.tsx"
     },
     "/users/$userId/posts": {
       "filePath": "users/$userId/posts.tsx"

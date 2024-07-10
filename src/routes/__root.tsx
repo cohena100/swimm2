@@ -1,25 +1,36 @@
 import { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { createRootRouteWithContext, Link, Outlet } from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { useEffect } from "react";
+import { useLocation } from "@tanstack/react-router";
+import "preline/preline";
+import { IStaticMethods } from "preline/preline";
+import Navbar from "../components/navbar";
 
+declare global {
+  interface Window {
+    HSStaticMethods: IStaticMethods;
+  }
+}
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
 }>()({
-  component: () => (
+  component: Home,
+});
+
+function Home() {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.HSStaticMethods.autoInit();
+  }, [location.pathname]);
+  return (
     <>
-      <div className="p-2 flex gap-2 text-lg">
-        <Link to="/" className="[&.active]:font-bold">
-          Home
-        </Link>
-        <Link to="/about" className="[&.active]:font-bold">
-          About
-        </Link>
-      </div>
-      <hr />
+      <Navbar />
       <Outlet />
       <ReactQueryDevtools buttonPosition="bottom-right" />
       <TanStackRouterDevtools position="bottom-right" />
     </>
-  ),
-});
+  );
+}
