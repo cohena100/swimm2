@@ -23,7 +23,9 @@ export const Route = createFileRoute("/users/$userId/albums/$albumId/photos")({
   loader: async ({ context, params: { albumId } }) => {
     const { queryClient } = context;
 
-    const data = queryClient.getQueryData(photosQueryOptions(albumId).queryKey) ?? (await queryClient.fetchInfiniteQuery(photosQueryOptions(albumId)));
+    const data =
+      queryClient.getQueryData(photosQueryOptions(albumId).queryKey) ??
+      (await queryClient.fetchInfiniteQuery(photosQueryOptions(albumId)));
     return {
       data,
     };
@@ -34,7 +36,8 @@ export const Route = createFileRoute("/users/$userId/albums/$albumId/photos")({
 function Photos() {
   const { albumId } = Route.useParams();
   const { ref, inView } = useInView();
-  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery(photosQueryOptions(albumId));
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
+    useInfiniteQuery(photosQueryOptions(albumId));
   const [isRefresh, refresh] = useState(0);
   useEffect(() => {
     if (inView) {
@@ -43,10 +46,14 @@ function Photos() {
   }, [inView, fetchNextPage, isRefresh]);
   return (
     <div className="mt-4">
-      <div className="flex flex-wrap gap-4">{data?.pages.map((group, i) => group.map((photo, j) => <Photo key={i * 1000 + j} photo={photo} />))}</div>
+      <div className="flex flex-wrap gap-4">
+        {data?.pages.map((group, i) =>
+          group.map((photo, j) => <Photo key={i * 1000 + j} photo={photo} />),
+        )}
+      </div>
       <div ref={ref}>
         {(isFetchingNextPage || hasNextPage) && (
-          <div className="flex justify-center mt-4">
+          <div className="mt-4 flex justify-center">
             <Spinner />
           </div>
         )}

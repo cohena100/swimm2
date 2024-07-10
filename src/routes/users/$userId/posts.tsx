@@ -23,7 +23,9 @@ export const Route = createFileRoute("/users/$userId/posts")({
   loader: async ({ context, params: { userId } }) => {
     const { queryClient } = context;
 
-    const data = queryClient.getQueryData(postsQueryOptions(userId).queryKey) ?? (await queryClient.fetchInfiniteQuery(postsQueryOptions(userId)));
+    const data =
+      queryClient.getQueryData(postsQueryOptions(userId).queryKey) ??
+      (await queryClient.fetchInfiniteQuery(postsQueryOptions(userId)));
     return {
       data,
     };
@@ -34,7 +36,8 @@ export const Route = createFileRoute("/users/$userId/posts")({
 function Posts() {
   const { userId } = Route.useParams();
   const { ref, inView } = useInView();
-  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery(postsQueryOptions(userId));
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
+    useInfiniteQuery(postsQueryOptions(userId));
   const [isRefresh, refresh] = useState(0);
   useEffect(() => {
     if (inView) {
@@ -43,10 +46,14 @@ function Posts() {
   }, [inView, fetchNextPage, isRefresh]);
   return (
     <div className="mt-4">
-      <div className="flex flex-wrap gap-4">{data?.pages.map((group, i) => group.map((post, j) => <Post key={i * 1000 + j} post={post} />))}</div>
+      <div className="flex flex-wrap gap-4">
+        {data?.pages.map((group, i) =>
+          group.map((post, j) => <Post key={i * 1000 + j} post={post} />),
+        )}
+      </div>
       <div ref={ref}>
         {(isFetchingNextPage || hasNextPage) && (
-          <div className="flex justify-center mt-4">
+          <div className="mt-4 flex justify-center">
             <Spinner />
           </div>
         )}

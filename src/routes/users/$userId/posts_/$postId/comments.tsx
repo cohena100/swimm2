@@ -23,7 +23,9 @@ export const Route = createFileRoute("/users/$userId/posts/$postId/comments")({
   loader: async ({ context, params: { postId } }) => {
     const { queryClient } = context;
 
-    const data = queryClient.getQueryData(commentsQueryOptions(postId).queryKey) ?? (await queryClient.fetchInfiniteQuery(commentsQueryOptions(postId)));
+    const data =
+      queryClient.getQueryData(commentsQueryOptions(postId).queryKey) ??
+      (await queryClient.fetchInfiniteQuery(commentsQueryOptions(postId)));
     return {
       data,
     };
@@ -34,7 +36,8 @@ export const Route = createFileRoute("/users/$userId/posts/$postId/comments")({
 function Comments() {
   const { postId } = Route.useParams();
   const { ref, inView } = useInView();
-  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery(commentsQueryOptions(postId));
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
+    useInfiniteQuery(commentsQueryOptions(postId));
   const [isRefresh, refresh] = useState(0);
   useEffect(() => {
     if (inView) {
@@ -43,10 +46,16 @@ function Comments() {
   }, [inView, fetchNextPage, isRefresh]);
   return (
     <div className="mt-4">
-      <div className="flex flex-wrap gap-4">{data?.pages.map((group, i) => group.map((comment, j) => <Comment key={i * 1000 + j} comment={comment} />))}</div>
+      <div className="flex flex-wrap gap-4">
+        {data?.pages.map((group, i) =>
+          group.map((comment, j) => (
+            <Comment key={i * 1000 + j} comment={comment} />
+          )),
+        )}
+      </div>
       <div ref={ref}>
         {(isFetchingNextPage || hasNextPage) && (
-          <div className="flex justify-center mt-4">
+          <div className="mt-4 flex justify-center">
             <Spinner />
           </div>
         )}
