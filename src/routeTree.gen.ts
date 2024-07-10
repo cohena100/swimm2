@@ -19,10 +19,22 @@ import { Route as UsersUserIdPostsPostIdCommentsImport } from './routes/users/$u
 
 // Create Virtual Routes
 
+const WorkLazyImport = createFileRoute('/work')()
+const BlogLazyImport = createFileRoute('/blog')()
 const AccountLazyImport = createFileRoute('/account')()
 const AboutLazyImport = createFileRoute('/about')()
 
 // Create/Update Routes
+
+const WorkLazyRoute = WorkLazyImport.update({
+  path: '/work',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/work.lazy').then((d) => d.Route))
+
+const BlogLazyRoute = BlogLazyImport.update({
+  path: '/blog',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/blog.lazy').then((d) => d.Route))
 
 const AccountLazyRoute = AccountLazyImport.update({
   path: '/account',
@@ -75,6 +87,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountLazyImport
       parentRoute: typeof rootRoute
     }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/work': {
+      id: '/work'
+      path: '/work'
+      fullPath: '/work'
+      preLoaderRoute: typeof WorkLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/users/$userId/posts': {
       id: '/users/$userId/posts'
       path: '/users/$userId/posts'
@@ -98,6 +124,8 @@ export const routeTree = rootRoute.addChildren({
   IndexRoute,
   AboutLazyRoute,
   AccountLazyRoute,
+  BlogLazyRoute,
+  WorkLazyRoute,
   UsersUserIdPostsRoute,
   UsersUserIdPostsPostIdCommentsRoute,
 })
@@ -113,6 +141,8 @@ export const routeTree = rootRoute.addChildren({
         "/",
         "/about",
         "/account",
+        "/blog",
+        "/work",
         "/users/$userId/posts",
         "/users/$userId/posts/$postId/comments"
       ]
@@ -125,6 +155,12 @@ export const routeTree = rootRoute.addChildren({
     },
     "/account": {
       "filePath": "account.lazy.tsx"
+    },
+    "/blog": {
+      "filePath": "blog.lazy.tsx"
+    },
+    "/work": {
+      "filePath": "work.lazy.tsx"
     },
     "/users/$userId/posts": {
       "filePath": "users/$userId/posts.tsx"

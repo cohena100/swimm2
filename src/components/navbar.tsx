@@ -52,18 +52,18 @@ const Navbar = () => {
         </div>
         <div id="navbar-collapse-with-animation" className="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block">
           <div className="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
-            <Link to="/about" className="font-medium text-blue-500" aria-current="page">
+            <Link to="/about" className="[&.active]:text-blue-500 font-medium text-gray-600 hover:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500">
               About
             </Link>
-            <Link to="/account" className="font-medium text-gray-600 hover:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500">
+            <Link to="/account" className="[&.active]:text-blue-500 font-medium text-gray-600 hover:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500">
               Account
             </Link>
-            <a className="font-medium text-gray-600 hover:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500" href="#">
+            <Link to="/work" className="[&.active]:text-blue-500 font-medium text-gray-600 hover:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500">
               Work
-            </a>
-            <a className="font-medium text-gray-600 hover:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500" href="#">
+            </Link>
+            <Link to="/blog" className="[&.active]:text-blue-500 font-medium text-gray-600 hover:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500">
               Blog
-            </a>
+            </Link>
           </div>
         </div>
       </nav>
