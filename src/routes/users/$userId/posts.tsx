@@ -44,15 +44,7 @@ function Posts() {
   }, [inView, fetchNextPage, isRefresh]);
   return (
     <div className="mt-4">
-      <div className="flex flex-wrap gap-4">
-        {data?.pages.map((group, i) => (
-          <React.Fragment key={i}>
-            {group.map((post) => (
-              <Post post={post} />
-            ))}
-          </React.Fragment>
-        ))}
-      </div>
+      <div className="flex flex-wrap gap-4">{data?.pages.map((group, i) => group.map((post, j) => <Post key={i * 1000 + j} post={post} />))}</div>
       <div ref={ref}>
         {(isFetchingNextPage || hasNextPage) && (
           <div className="flex justify-center mt-4">

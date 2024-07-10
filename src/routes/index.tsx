@@ -39,15 +39,7 @@ function Index() {
   }, [inView, fetchNextPage, isRefresh]);
   return (
     <div className="mt-4">
-      <div className="flex flex-wrap gap-4">
-        {data?.pages.map((group, i) => (
-          <React.Fragment key={i}>
-            {group.map((user) => (
-              <User user={user} />
-            ))}
-          </React.Fragment>
-        ))}
-      </div>
+      <div className="flex flex-wrap gap-4">{data?.pages.map((group, i) => group.map((user, j) => <User key={i * 1000 + j} user={user} />))}</div>
       <div ref={ref}>
         {(isFetchingNextPage || hasNextPage) && (
           <div className="flex justify-center mt-4">

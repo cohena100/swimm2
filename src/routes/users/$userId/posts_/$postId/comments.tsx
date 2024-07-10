@@ -44,15 +44,7 @@ function Comments() {
   }, [inView, fetchNextPage, isRefresh]);
   return (
     <div className="mt-4">
-      <div className="flex flex-wrap gap-4">
-        {data?.pages.map((group, i) => (
-          <React.Fragment key={i}>
-            {group.map((comment) => (
-              <Comment comment={comment} />
-            ))}
-          </React.Fragment>
-        ))}
-      </div>
+      <div className="flex flex-wrap gap-4">{data?.pages.map((group, i) => group.map((comment, j) => <Comment key={i * 1000 + j} comment={comment} />))}</div>
       <div ref={ref}>
         {(isFetchingNextPage || hasNextPage) && (
           <div className="flex justify-center mt-4">

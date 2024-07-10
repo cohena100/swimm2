@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import ButtonDarkMode from "./button-dark-mode";
 
 const Navbar = () => {
   return (
@@ -8,6 +9,9 @@ const Navbar = () => {
           <Link to="/" className="flex-none text-xl font-semibold dark:text-white">
             Brand
           </Link>
+          <div className="ml-2">
+            <ButtonDarkMode />
+          </div>
           <div className="sm:hidden">
             <button
               type="button"
@@ -24,9 +28,9 @@ const Navbar = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
                 <line x1="3" x2="21" y1="6" y2="6" />
                 <line x1="3" x2="21" y1="12" y2="12" />
@@ -40,9 +44,9 @@ const Navbar = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
                 <path d="M18 6 6 18" />
                 <path d="m6 6 12 12" />
