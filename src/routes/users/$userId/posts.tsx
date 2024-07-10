@@ -6,6 +6,7 @@ import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
 import React from "react";
 import Post from "../../../components/post";
+import Spinner from "../../../components/spinner";
 
 const postsQueryOptions = (userId: string) =>
   infiniteQueryOptions<IPost[]>({
@@ -52,8 +53,13 @@ function Posts() {
           </React.Fragment>
         ))}
       </div>
-      {isFetchingNextPage && hasNextPage ? <p className="text-center">Loading...</p> : <p className="text-center">No more posts found</p>}
-      <div ref={ref}></div>
+      <div ref={ref}>
+        {(isFetchingNextPage || hasNextPage) && (
+          <div className="flex justify-center mt-4">
+            <Spinner />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

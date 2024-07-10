@@ -6,6 +6,7 @@ import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
 import React from "react";
 import Comment from "../../../../../components/comment";
+import Spinner from "../../../../../components/spinner";
 
 const commentsQueryOptions = (postId: string) =>
   infiniteQueryOptions<IComment[]>({
@@ -52,8 +53,13 @@ function Comments() {
           </React.Fragment>
         ))}
       </div>
-      {isFetchingNextPage && hasNextPage ? <p className="text-center">Loading...</p> : <p className="text-center">No more comments found</p>}
-      <div ref={ref}></div>
+      <div ref={ref}>
+        {(isFetchingNextPage || hasNextPage) && (
+          <div className="flex justify-center mt-4">
+            <Spinner />
+          </div>
+        )}
+      </div>{" "}
     </div>
   );
 }
