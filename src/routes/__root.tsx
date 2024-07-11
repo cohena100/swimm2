@@ -28,7 +28,7 @@ function Home() {
   return (
     <>
       <Navbar />
-      <div className="m-4">
+      <div className="dark:bg-slate-400">
         <Outlet />
       </div>
       <ReactQueryDevtools buttonPosition="bottom-right" />

@@ -18,6 +18,7 @@ import { Route as UsersUserIdPostsImport } from './routes/users/$userId/posts'
 import { Route as UsersUserIdAlbumsImport } from './routes/users/$userId/albums'
 import { Route as UsersUserIdPostsPostIdCommentsImport } from './routes/users/$userId/posts_/$postId/comments'
 import { Route as UsersUserIdAlbumsAlbumIdPhotosImport } from './routes/users/$userId/albums_/$albumId/photos'
+import { Route as UsersUserIdPostsPostIdCommentsCommentIdEditImport } from './routes/users/$userId/posts_/$postId/comments_/$commentId/edit'
 
 // Create Virtual Routes
 
@@ -72,6 +73,12 @@ const UsersUserIdPostsPostIdCommentsRoute =
 const UsersUserIdAlbumsAlbumIdPhotosRoute =
   UsersUserIdAlbumsAlbumIdPhotosImport.update({
     path: '/users/$userId/albums/$albumId/photos',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const UsersUserIdPostsPostIdCommentsCommentIdEditRoute =
+  UsersUserIdPostsPostIdCommentsCommentIdEditImport.update({
+    path: '/users/$userId/posts/$postId/comments/$commentId/edit',
     getParentRoute: () => rootRoute,
   } as any)
 
@@ -142,6 +149,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersUserIdPostsPostIdCommentsImport
       parentRoute: typeof rootRoute
     }
+    '/users/$userId/posts/$postId/comments/$commentId/edit': {
+      id: '/users/$userId/posts/$postId/comments/$commentId/edit'
+      path: '/users/$userId/posts/$postId/comments/$commentId/edit'
+      fullPath: '/users/$userId/posts/$postId/comments/$commentId/edit'
+      preLoaderRoute: typeof UsersUserIdPostsPostIdCommentsCommentIdEditImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -157,6 +171,7 @@ export const routeTree = rootRoute.addChildren({
   UsersUserIdPostsRoute,
   UsersUserIdAlbumsAlbumIdPhotosRoute,
   UsersUserIdPostsPostIdCommentsRoute,
+  UsersUserIdPostsPostIdCommentsCommentIdEditRoute,
 })
 
 /* prettier-ignore-end */
@@ -175,7 +190,8 @@ export const routeTree = rootRoute.addChildren({
         "/users/$userId/albums",
         "/users/$userId/posts",
         "/users/$userId/albums/$albumId/photos",
-        "/users/$userId/posts/$postId/comments"
+        "/users/$userId/posts/$postId/comments",
+        "/users/$userId/posts/$postId/comments/$commentId/edit"
       ]
     },
     "/": {
@@ -204,6 +220,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/users/$userId/posts/$postId/comments": {
       "filePath": "users/$userId/posts_/$postId/comments.tsx"
+    },
+    "/users/$userId/posts/$postId/comments/$commentId/edit": {
+      "filePath": "users/$userId/posts_/$postId/comments_/$commentId/edit.tsx"
     }
   }
 }

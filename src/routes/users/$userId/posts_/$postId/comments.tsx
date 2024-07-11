@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { IComment } from "../../../../../lib/types/comments";
+import { IComment } from "../../../../../lib/types/comment";
 import { fetchUserPostComments } from "../../../../../lib/api/users";
 import { infiniteQueryOptions, useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
