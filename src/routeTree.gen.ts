@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as UsersAddImport } from './routes/users/add'
 import { Route as UsersUserIdPostsImport } from './routes/users/$userId/posts'
 import { Route as UsersUserIdEditImport } from './routes/users/$userId/edit'
 import { Route as UsersUserIdAlbumsImport } from './routes/users/$userId/albums'
@@ -52,6 +53,11 @@ const AboutLazyRoute = AboutLazyImport.update({
 
 const IndexRoute = IndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UsersAddRoute = UsersAddImport.update({
+  path: '/users/add',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -127,6 +133,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkLazyImport
       parentRoute: typeof rootRoute
     }
+    '/users/add': {
+      id: '/users/add'
+      path: '/users/add'
+      fullPath: '/users/add'
+      preLoaderRoute: typeof UsersAddImport
+      parentRoute: typeof rootRoute
+    }
     '/users/$userId/albums': {
       id: '/users/$userId/albums'
       path: '/users/$userId/albums'
@@ -180,6 +193,7 @@ export const routeTree = rootRoute.addChildren({
   AccountLazyRoute,
   BlogLazyRoute,
   WorkLazyRoute,
+  UsersAddRoute,
   UsersUserIdAlbumsRoute,
   UsersUserIdEditRoute,
   UsersUserIdPostsRoute,
@@ -201,6 +215,7 @@ export const routeTree = rootRoute.addChildren({
         "/account",
         "/blog",
         "/work",
+        "/users/add",
         "/users/$userId/albums",
         "/users/$userId/edit",
         "/users/$userId/posts",
@@ -223,6 +238,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/work": {
       "filePath": "work.lazy.tsx"
+    },
+    "/users/add": {
+      "filePath": "users/add.tsx"
     },
     "/users/$userId/albums": {
       "filePath": "users/$userId/albums.tsx"

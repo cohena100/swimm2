@@ -1,5 +1,5 @@
 import { infiniteQueryOptions, useInfiniteQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { IUser } from "../lib/types/user";
@@ -42,6 +42,14 @@ function Index() {
   }, [inView, fetchNextPage, isRefresh]);
   return (
     <div className="mt-4">
+      <div className="fixed bottom-4 left-4">
+        <Link
+          to={`/users/add`}
+          className="mt-2 inline-flex items-center justify-center gap-x-2 rounded-lg border border-transparent bg-blue-600 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:pointer-events-none disabled:opacity-50"
+        >
+          +
+        </Link>
+      </div>{" "}
       <div className="flex flex-wrap gap-4">
         {data?.pages.map((group, i) =>
           group.map((user, j) => <User key={i * 1000 + j} user={user} />),

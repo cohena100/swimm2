@@ -68,3 +68,14 @@ export const updateUser = async (userId: string, body: Partial<IUser>) => {
   );
   return response.json();
 };
+
+export const createUser = async (body: Partial<IUser>) => {
+  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/users`, {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  });
+  return response.json();
+};
