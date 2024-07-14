@@ -14,8 +14,8 @@ const usersQueryOptions = infiniteQueryOptions<IUser[]>({
   getNextPageParam(lastPage, allPages) {
     return lastPage.length > 0 ? allPages.length + 1 : undefined;
   },
-  refetchOnWindowFocus: false,
-  staleTime: Infinity,
+  // refetchOnWindowFocus: false,
+  // staleTime: Infinity,
 });
 export const Route = createFileRoute("/")({
   loader: async ({ context }) => {

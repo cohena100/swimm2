@@ -28,9 +28,7 @@ function Home() {
   return (
     <>
       <Navbar />
-      <div className="dark:bg-slate-400">
-        <Outlet />
-      </div>
+      <Outlet />
       <ReactQueryDevtools buttonPosition="bottom-right" />
       <TanStackRouterDevtools position="bottom-right" />
     </>

@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as UsersUserIdPostsImport } from './routes/users/$userId/posts'
+import { Route as UsersUserIdEditImport } from './routes/users/$userId/edit'
 import { Route as UsersUserIdAlbumsImport } from './routes/users/$userId/albums'
 import { Route as UsersUserIdPostsPostIdCommentsImport } from './routes/users/$userId/posts_/$postId/comments'
 import { Route as UsersUserIdAlbumsAlbumIdPhotosImport } from './routes/users/$userId/albums_/$albumId/photos'
@@ -56,6 +57,11 @@ const IndexRoute = IndexImport.update({
 
 const UsersUserIdPostsRoute = UsersUserIdPostsImport.update({
   path: '/users/$userId/posts',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UsersUserIdEditRoute = UsersUserIdEditImport.update({
+  path: '/users/$userId/edit',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -128,6 +134,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersUserIdAlbumsImport
       parentRoute: typeof rootRoute
     }
+    '/users/$userId/edit': {
+      id: '/users/$userId/edit'
+      path: '/users/$userId/edit'
+      fullPath: '/users/$userId/edit'
+      preLoaderRoute: typeof UsersUserIdEditImport
+      parentRoute: typeof rootRoute
+    }
     '/users/$userId/posts': {
       id: '/users/$userId/posts'
       path: '/users/$userId/posts'
@@ -168,6 +181,7 @@ export const routeTree = rootRoute.addChildren({
   BlogLazyRoute,
   WorkLazyRoute,
   UsersUserIdAlbumsRoute,
+  UsersUserIdEditRoute,
   UsersUserIdPostsRoute,
   UsersUserIdAlbumsAlbumIdPhotosRoute,
   UsersUserIdPostsPostIdCommentsRoute,
@@ -188,6 +202,7 @@ export const routeTree = rootRoute.addChildren({
         "/blog",
         "/work",
         "/users/$userId/albums",
+        "/users/$userId/edit",
         "/users/$userId/posts",
         "/users/$userId/albums/$albumId/photos",
         "/users/$userId/posts/$postId/comments",
@@ -211,6 +226,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/users/$userId/albums": {
       "filePath": "users/$userId/albums.tsx"
+    },
+    "/users/$userId/edit": {
+      "filePath": "users/$userId/edit.tsx"
     },
     "/users/$userId/posts": {
       "filePath": "users/$userId/posts.tsx"
