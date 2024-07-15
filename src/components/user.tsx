@@ -16,7 +16,7 @@ const User = ({ user }: Props) => {
             to={`/users/${user.id}/posts`}
             className="mt-2 inline-flex items-center justify-center gap-x-2 rounded-lg border border-transparent bg-blue-600 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:pointer-events-none disabled:opacity-50"
           >
-            Comments
+            Posts
           </Link>
           <Link
             to={`/users/${user.id}/albums`}
